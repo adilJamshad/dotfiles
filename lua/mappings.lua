@@ -28,4 +28,38 @@ map("n", "<leader>tt", function()
 end, {
   desc = "Toggle git ignored files",
 })
+function CustomFindFiles()
+  local opts = {}
+  opts.cwd = vim.fn.input("Directory: ", "", "dir")
+  opts.find_command = { "rg", "--files", "--glob", vim.fn.input "Include files: " }
+  require("telescope.builtin").find_files(opts)
+end
+
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>fc",
+  ":lua CustomFindFiles()<CR>",
+  { noremap = true, silent = true, desc = "Find in a Directory" }
+)
+map("n", "[h", function()
+  package.loaded.gitsigns.prev_hunk()
+end, { desc = "Go to Previous Hunk" })
+map("n", "]h", function()
+  package.loaded.gitsigns.next_hunk()
+end, { desc = "Go to Next Hunk" })
+map("n", "<leader>gd", function()
+  package.loaded.gitsigns.diffthis()
+end, { desc = "show git changes" })
+map("n", "<leader>gD", function()
+  package.loaded.gitsigns.diffthis "~"
+end, { desc = "Show diff of whole file" })
+map("n", "<leader>gs", function()
+  package.loaded.gitsigns.stage_hunk()
+end, { desc = "Stage the hunk" })
+map("n", "<leader>gu", function()
+  package.loaded.gitsigns.reset_hunk()
+end, { desc = "Unstage hunk" })
+-- map("n", "<C-o>", ":lua require'nvim-tree'.on_keypress('vsplit')<CR>", {
+--   desc= "Open file in split window"
+-- })
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")

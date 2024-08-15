@@ -36,6 +36,7 @@ return {
       "rcarriga/nvim-dap-ui",
       "nvim-neotest/nvim-nio",
       "mfussenegger/nvim-dap-python",
+      "nvim-telescope/telescope-dap.nvim"
     },
     config = function()
       local dap = require "dap"
@@ -54,7 +55,7 @@ return {
       -- dap.configurations.python = dap.configurations.python
       dap.set_log_level "TRACE"
       dapui.setup()
-      vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = "", linehl = "", numhl = "" })
+      vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = ".5", linehl = ".75", numhl = "" })
 
       dap.listeners.before.attach.dapui_config = function()
         dapui.open()
