@@ -22,10 +22,10 @@ return {
         "vimdoc",
         "html",
         "css",
-        "typescript",
         "javascript",
         "python",
         "go",
+        "typescript",
       },
     },
   },
@@ -36,9 +36,10 @@ return {
       "rcarriga/nvim-dap-ui",
       "nvim-neotest/nvim-nio",
       "mfussenegger/nvim-dap-python",
-      "nvim-telescope/telescope-dap.nvim"
+      "nvim-telescope/telescope-dap.nvim",
     },
     config = function()
+      require("telescope").load_extension "dap"
       local dap = require "dap"
       local dapui = require "dapui"
       require("dap.ext.vscode").load_launchjs(".vscode/launch.json", {
