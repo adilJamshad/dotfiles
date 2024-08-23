@@ -10,7 +10,7 @@ local servers = {
   "gopls",
   "pyright",
   "lua_ls",
-  "tsserver"
+  "tsserver",
 }
 local nvlsp = require "nvchad.configs.lspconfig"
 

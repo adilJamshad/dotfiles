@@ -59,7 +59,13 @@ end, { desc = "Stage the hunk" })
 map("n", "<leader>gu", function()
   package.loaded.gitsigns.reset_hunk()
 end, { desc = "Unstage hunk" })
--- map("n", "<C-o>", ":lua require'nvim-tree'.on_keypress('vsplit')<CR>", {
---   desc= "Open file in split window"
--- })
+map("n", "<leader>ld", function()
+  vim.diagnostic.enable(false)
+end, { desc = "Disable Linting" })
+map("n", "<leader>le", function()
+  vim.diagnostic.enable(true)
+end, { desc = "Enable Linting" })
+map("n", "<leader>fp", function()
+  vim.cmd "!yarn prettier --write %"
+end, { desc = "Run formatter" })
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")

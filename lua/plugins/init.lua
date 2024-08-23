@@ -1,7 +1,7 @@
 return {
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
+    event = "BufWritePre", -- uncomment for format on save
     opts = require "configs.conform",
   },
 
@@ -54,7 +54,6 @@ return {
       end
 
       -- dap.configurations.python = dap.configurations.python
-      dap.set_log_level "TRACE"
       dapui.setup()
       vim.fn.sign_define("DapBreakpoint", { text = "🛑", texthl = ".5", linehl = ".75", numhl = "" })
 
@@ -70,6 +69,19 @@ return {
       dap.listeners.before.event_exited.dapui_config = function()
         dapui.close()
       end
+    end,
+  },
+  { "akinsho/git-conflict.nvim", version = "*", config = true },
+  {
+    "rmagatti/auto-session",
+    lazy = false,
+    dependencies = {
+      "nvim-telescope/telescope.nvim", -- Only needed if you want to use sesssion lens
+    },
+    config = function()
+      require("auto-session").setup {
+        auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+      }
     end,
   },
 }
