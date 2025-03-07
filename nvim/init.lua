@@ -37,3 +37,4 @@ require "nvchad.autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+package.path = package.path .. ";" .. vim.fn.stdpath("config") .. "/lua/?.lua"

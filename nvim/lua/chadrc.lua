@@ -41,7 +41,7 @@ local function get_file()
 end
 
 M.base46 = {
-  theme = "gruvbox",
+  theme = "catppuccin",
 
   -- hl_override = {
   -- 	Comment = { italic = true },
@@ -51,7 +51,7 @@ M.base46 = {
 
 M.ui = {
   statusline = {
-    order = { "mode", "file", "git", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "cursor" },
+    order = { "mode", "git", "file", "%=", "lsp_msg", "%=", "diagnostics", "lsp", "cwd", "cursor" },
     modules = {
       file = function()
         local x = get_file()
@@ -61,6 +61,16 @@ M.ui = {
       -- cursor = function()
       --   return "%#BruhHl#" .. " bruh "
       -- end,
+      macro = function()
+        vim.inspect(print("called"))
+        local macro_reg = vim.fn.reg_recording()
+        if macro_reg ~= "" then
+          vim.inspect(print("returning"))          
+          return "%#St_macro_recording#" .. " " .. macro_reg .. " "
+        else
+          return ""
+        end
+      end,
     },
   },
 }
@@ -133,4 +143,7 @@ require("telescope").setup {
   },
 }
 
+M.term = {
+  winopts = { winfixbuf = true },
+}
 return M
