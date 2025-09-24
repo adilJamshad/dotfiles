@@ -77,7 +77,7 @@ outer.bottom     = 10
 outer.right      = 10
 
 outer.top = [
-  { monitor."Built-in Retina Display" = 10 },
+  { monitor."Built-in Retina Display" = 5 },
   { monitor."ASUS MX32V" = 40 },
   10
 ]# 'main' binding mode declaration

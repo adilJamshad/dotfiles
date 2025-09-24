@@ -346,6 +346,13 @@ return {
     }
   },
   {
+    "supermaven-inc/supermaven-nvim",
+    config = function()
+      local opts = require "configs.super_maven"
+      require("supermaven-nvim").setup(opts)
+    end,
+  },
+  {
     "kylechui/nvim-surround",
     event="VeryLazy",
     config = function ()

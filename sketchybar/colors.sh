@@ -8,7 +8,7 @@ export ACCENT_COLOR=0xffcdd6f4
 export BACKGROUND_COLOR=0xff1e1e2e
 
 # Catppuccin Mocha colors
-export BAR_COLOR=0xff1e1e2e        # Base
+export BAR_COLOR=0x001e1e2e        # Base
 export LABEL_COLOR=0xffcdd6f4      # Text
 export ACTIVE_BG=0xff89b4fa        # Blue
 export ACTIVE_LABEL=0xff1e1e2e     # Dark text on active bg

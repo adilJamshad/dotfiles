@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "$INFO"
 
 STATE="$(echo "$INFO" | jq -r '.state')"
 if [ "$STATE" = "playing" ]; then
@@ -7,3 +8,4 @@ if [ "$STATE" = "playing" ]; then
 else
   sketchybar --set $NAME drawing=off
 fi
+

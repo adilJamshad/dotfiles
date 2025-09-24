@@ -17,12 +17,12 @@ ITEM_DIR="$CONFIG_DIR/items"
 # If you are looking for other colors, see the color picker:
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
-sketchybar --bar height=37        \
+sketchybar --bar height=30        \
                  blur_radius=30   \
                  position=top     \
                  sticky=off       \
-                 padding_left=10  \
-                 padding_right=10 \
+                 padding_left=5   \
+                 padding_right=5  \
                  color=$BAR_COLOR \
                  notch_width=200
 
@@ -31,19 +31,19 @@ sketchybar --bar height=37        \
 # For a full list of all available item properties see:
 # https://felixkratz.github.io/SketchyBar/config/items
 
-sketchybar --default icon.font="JetBrainsMono Nerd Font:Semibold:15.0"  \
+sketchybar --default icon.font="JetBrainsMono Nerd Font:Semibold:13.0"  \
                      icon.color=$ACTIVE_LABEL                 \
-                     label.font="JetBrainsMono Nerd Font:Semibold:15.0" \
+                     label.font="JetBrainsMono Nerd Font:Semibold:13.0" \
                      label.color=$ACTIVE_LABEL                \
                      background.color=$ACCENT_COLOR       \
-                     background.corner_radius=5            \
+                     background.corner_radius=10            \
                      background.height=24                  \
-                     padding_left=5                        \
-                     padding_right=5                       \
-                     label.padding_left=4                  \
-                     label.padding_right=10                \
-                     icon.padding_left=10                  \
-                     icon.padding_right=4
+                     padding_left=4                        \
+                     padding_right=4                       \
+                     label.padding_left=2                  \
+                     label.padding_right=6                \
+                     icon.padding_left=6                  \
+                     icon.padding_right=2
 
 # -- Left Side Items --
 source $ITEM_DIR/spaces.sh
@@ -57,7 +57,9 @@ source $ITEM_DIR/calendar.sh
 source $ITEM_DIR/volume.sh
 source $ITEM_DIR/battery.sh
 source $ITEM_DIR/cpu.sh
-
+source $ITEM_DIR/ram.sh
+# source $ITEM_DIR/slack.sh
+# source $ITEM_DIR/net.sh
 
 ##### Finalizing Setup #####
 # The below command is only needed at the end of the initial configuration to
