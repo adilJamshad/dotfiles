@@ -1,8 +1,65 @@
 return {
   {
-    "stevearc/conform.nvim",
-    event = "BufWritePre", -- uncomment for format on save
-    opts = require "configs.conform",
+    'saghen/blink.pairs',
+    event = 'VeryLazy',
+    version = '*', -- (recommended) only required with prebuilt binaries
+    build = function() require('blink.pairs').download():pwait(60000) end,
+
+    -- download prebuilt binaries from github releases
+    dependencies = 'saghen/blink.lib',
+    -- OR build from source, requires nightly:
+    -- https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
+    -- build = 'cargo build --release',
+    -- If you use nix, you can build from source using latest nightly rust with:
+    -- build = 'nix run .#build-plugin',
+
+    --- @module 'blink.pairs'
+    --- @type blink.pairs.Config
+    opts = require("configs.blinkPairs"),
+    config = function(_, opts)
+      require("vim._core.ui2").enable({})
+      require("blink.pairs").setup(opts)
+    end,
+  },
+  {
+  "saghen/blink.indent",
+    event = "VeryLazy",
+    opts = {
+      scope = {
+        enabled = true,
+      },
+    },
+  },
+  {
+    "saghen/blink.cmp",
+    version = "1.*",
+    event = "LspAttach",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+      "onsails/lspkind.nvim"
+    },
+    opts = require("configs.blinkCmp"),
+  },
+  -- {
+  --   "stevearc/conform.nvim",
+  --   event = "BufWritePre", -- uncomment for format on save
+  --   opts = require "configs.conform",
+  -- },
+  {
+    "hrsh7th/nvim-cmp",
+    enabled = false,
+  },
+  {
+    "greggh/claude-code.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required for git operations
+    },
+    event = "BufRead",
+    config = function()
+      require("claude-code").setup({
+
+      })
+    end
   },
   {
     "nvim-telescope/telescope.nvim",
@@ -25,6 +82,9 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    build = ":TSUpdate",
+    lazy = false,
     opts = {
       ensure_installed = {
         "vim",
@@ -37,7 +97,9 @@ return {
         "go",
         "typescript",
         "scss",
-        "tsx"
+        "tsx",
+        "markdown",
+        "markdown_inline",
       },
     },
   },
@@ -54,8 +116,9 @@ return {
       require "configs.dap"
     end,
   },
-  { "akinsho/git-conflict.nvim",
-    event="VeryLazy",
+  {
+    "akinsho/git-conflict.nvim",
+    event = "VeryLazy",
     version = "*",
     config = true,
   },
@@ -70,7 +133,7 @@ return {
         auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
         session_lens = {
           load_on_setup = true, -- Initialize on startup (requires Telescope)
-          theme_conf = { -- Pass through for Telescope theme options
+          theme_conf = {        -- Pass through for Telescope theme options
             -- layout_config = { -- As one example, can change width/height of picker
             --   width = 0.8,    -- percent of window
             --   height = 0.5,
@@ -108,25 +171,25 @@ return {
   },
   {
     "rachartier/tiny-inline-diagnostic.nvim",
-    event="VeryLazy",
+    event = "VeryLazy",
     priority = 1000, -- needs to be loaded in first
     config = function()
-        require('tiny-inline-diagnostic').setup()
+      require('tiny-inline-diagnostic').setup()
     end
   },
   {
     "kdheepak/lazygit.nvim",
     lazy = true,
     cmd = {
-        "LazyGit",
-        "LazyGitConfig",
-        "LazyGitCurrentFile",
-        "LazyGitFilter",
-        "LazyGitFilterCurrentFile",
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
     },
     -- optional for floating window border decoration
     dependencies = {
-        "nvim-lua/plenary.nvim",
+      "nvim-lua/plenary.nvim",
     },
   },
   -- {
@@ -178,7 +241,7 @@ return {
   -- },
   {
     'nvzone/typr',
-    cmd="TyprStats",
+    cmd = "TyprStats",
     dependencies = "nvzone/volt",
     opts = {},
   },
@@ -188,10 +251,10 @@ return {
   },
   {
     "atiladefreitas/dooing",
-    event="VeryLazy",
+    event = "VeryLazy",
     config = function()
       require("dooing").setup({
-            -- your custom config here (optional)
+        -- your custom config here (optional)
         keymaps = {
           toggle_window = "<leader>td",
           new_todo = "i",
@@ -227,23 +290,27 @@ return {
     opts = {},
     -- stylua: ignore
     keys = {
-      { "M", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "M", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      { "R", mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
     },
   },
-  { "nvim-treesitter/nvim-treesitter-context",
-    event= "VeryLazy",
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    event = "VeryLazy",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
       require("treesitter-context").setup({
         enable = true, -- Enable this plugin (Can be toggled with `:TSContextToggle`)
         max_lines = 4, -- How many lines the context window should span
-        trim_scope = "outter", -- Which scope should be used to trim the context
+        trim_scope = "outer", -- Which scope should be used to trim the context
         mode = "topline", -- Use "topline" for context from the first line visible in the window
         separator = "─", -- Separator between context and code
         multiWindow = true,
         line_numbers = true,
+        highlight = {
+          enable = true,
+        }
       })
     end,
   },
@@ -255,22 +322,22 @@ return {
   },
   {
     "petertriho/nvim-scrollbar",
-    event="VeryLazy",
+    event = "VeryLazy",
     config = function()
       require('scrollbar.handlers.search').setup()
       require('scrollbar').setup({
         show = true,
         set_highlights = true,
-        folds = 1000, -- handle folds, set to number to disable folds if no. of lines in buffer exceeds this
+        folds = 1000,      -- handle folds, set to number to disable folds if no. of lines in buffer exceeds this
         max_lines = false, -- disables if no. of lines in buffer exceeds this
         handle = {
           text = " ",
           blend = 10, -- Integer between 0 and 100. 0 for fully opaque and 100 to full transparent. Defaults to 30.
           color = '#cadbce',
           highlight = "CursorColumn",
-          hide_if_all_visible = true, -- Hides handle if all lines are visible     
-      },
-      marks = {
+          hide_if_all_visible = true, -- Hides handle if all lines are visible
+        },
+        marks = {
           Search = {
             text = { '-', '=' },
             priority = 0,
@@ -315,7 +382,7 @@ return {
           },
         },
         excluded_buftypes = {
-            'terminal',
+          'terminal',
         },
         excluded_filetypes = {
           'prompt',
@@ -331,7 +398,7 @@ return {
             'CmdwinLeave',
             'TextChanged',
             'VimResized',
-              'WinScrolled',
+            'WinScrolled',
           },
         },
         handlers = {
@@ -347,6 +414,7 @@ return {
   },
   {
     "supermaven-inc/supermaven-nvim",
+    event = "VeryLazy",
     config = function()
       local opts = require "configs.super_maven"
       require("supermaven-nvim").setup(opts)
@@ -354,9 +422,9 @@ return {
   },
   {
     "kylechui/nvim-surround",
-    event="VeryLazy",
-    config = function ()
-      require("numb").setup()
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup()
     end,
   },
   -- { "ellisonleao/gruvbox.nvim", priority = 1000 , config = false}
